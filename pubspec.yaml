@@ -10,8 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  crypto: ^2.1.2
+  pointycastle: ^1.0.1
   fixnum: ^0.10.9
   convert: ^2.1.1
+
 
 dev_dependencies:
   flutter_test:
