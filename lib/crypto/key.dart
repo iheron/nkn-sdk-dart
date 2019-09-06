@@ -1,31 +1,47 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:nkn_sdk/tweetnacl/keypair.dart';
 import 'package:nkn_sdk/tweetnacl/signature.dart';
-import 'package:nkn_sdk/tweetnacl/tools.dart';
-
-import '../utils.dart';
+import 'package:nkn_sdk/utils.dart';
 
 class Key {
-  KeyPair key;
-  Uint8List publicKey;
-  Uint8List privateKey;
-  Uint8List seed;
+  KeyPair _key;
+  Uint8List _publicKey;
+  Uint8List _privateKey;
+  Uint8List _seed;
   String signatureRedeem;
+  String programHash;
 
   Key(seed) {
-    if (seed is String) {
-      this.key = Signature.keyPair_fromSeed(hexDecode(seed));
+    Uint8List seedByte;
+    if (seed is Uint8List) {
+      seedByte = seed;
+      this._key = Signature.keyPair_fromSeed(seed);
+    } else if (seed is String) {
+      seedByte = hexDecode(seed);
+      this._key = Signature.keyPair_fromSeed(seedByte);
     } else {
-      Uint8List seedByte = randomByte();
-      this.key = Signature.keyPair_fromSeed(seedByte);
+      seedByte = randomByte();
+      this._key = Signature.keyPair_fromSeed(seedByte);
     }
-    this.publicKey = key.publicKey;
-    this.privateKey = key.secretKey;
-    this.seed = seed;
-    this.signatureRedeem = Utils.publicKeyToSignatureRedeem(Utils.hexEncode(key.publicKey));
-//    this.programHash =
-
+    this._publicKey = _key.publicKey;
+    this._privateKey = _key.secretKey;
+    this._seed = seedByte;
+    this.signatureRedeem =
+        publicKeyToSignatureRedeem(hexEncode(_key.publicKey));
+    this.programHash = hexStringToProgramHash(this.signatureRedeem);
   }
 
+  String get seed {
+    return hexEncode(this._seed);
+  }
+
+  String get privateKey {
+    return hexEncode(this._privateKey);
+  }
+
+  String get publicKey {
+    return hexEncode(this._publicKey);
+  }
 }
