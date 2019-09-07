@@ -1,5 +1,6 @@
+import 'dart:core';
 import 'dart:typed_data';
-
+import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'tweetnacl/signature.dart';
 import 'tweetnacl/tweetnaclfast.dart';
@@ -29,4 +30,10 @@ String publicKeyToSignatureRedeem(String publicKey) {
 
 String hexStringToProgramHash(String hexStr) {
   return ripemd160Hex(sha256Hex(hexStr));
+}
+
+List<int> genAddressVerifyBytesFromProgramHash(String programHash) {
+  programHash = ADDRESS_GEN_PREFIX + programHash;
+  var verifyBytes = hexDecode(doubleSha256Hex(programHash));
+  return verifyBytes.sublist(0, CHECKSUM_LEN);
 }
