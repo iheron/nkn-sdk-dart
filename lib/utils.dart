@@ -1,6 +1,6 @@
 import 'dart:core';
 import 'dart:typed_data';
-import 'dart:convert';
+import 'package:bs58check/bs58check.dart';
 import 'package:convert/convert.dart';
 import 'tweetnacl/signature.dart';
 import 'tweetnacl/tweetnaclfast.dart';
@@ -29,11 +29,44 @@ String publicKeyToSignatureRedeem(String publicKey) {
 }
 
 String hexStringToProgramHash(String hexStr) {
-  return ripemd160Hex(sha256Hex(hexStr));
+  return hexEncode(ripemd160Hex(sha256Hex(hexStr)));
 }
 
 List<int> genAddressVerifyBytesFromProgramHash(String programHash) {
   programHash = ADDRESS_GEN_PREFIX + programHash;
-  var verifyBytes = hexDecode(doubleSha256Hex(programHash));
+  var verifyBytes = doubleSha256Hex(programHash);
   return verifyBytes.sublist(0, CHECKSUM_LEN);
+}
+
+String programHashStringToAddress(String programHash) {
+  var addressVerifyBytes = genAddressVerifyBytesFromProgramHash(programHash);
+  var addressBaseData = hexDecode(ADDRESS_GEN_PREFIX + programHash);
+  return base58.encode(Uint8List.fromList(addressBaseData + addressVerifyBytes));
+}
+
+String prefixByteCountToHexString(String hexStr) {
+  var len = hexStr.length;
+  if (0 == len) {
+    return '00';
+  }
+  if (1 == len % 2) {
+    hexStr = '0' + hexStr;
+    len += 1;
+  }
+
+  var byteCount = (len ~/ 2).toRadixString(16);
+
+  if (1 == byteCount.length % 2) {
+    byteCount = '0' + byteCount;
+  }
+
+  return byteCount + hexStr;
+}
+
+String genAccountContractString(signatureRedeem, programHash) {
+  var contract = '';
+  contract += prefixByteCountToHexString(signatureRedeem);
+  contract += prefixByteCountToHexString('00');
+  contract += programHash;
+  return contract;
 }

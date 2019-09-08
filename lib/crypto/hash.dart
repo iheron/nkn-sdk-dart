@@ -3,27 +3,30 @@ import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:nkn_sdk/utils.dart';
 
-String sha256(raw) {
+List<int> sha256(raw) {
   var byte;
   if (raw is List<int>)
     byte = raw;
   else if (raw is String) byte = utf8.encode(raw);
-  return crypto.sha256.convert(byte).toString();
+  return crypto.sha256.convert(byte).bytes;
 }
 
-String sha256Hex(String raw) {
+List<int> sha256Hex(raw) {
   var byte;
   if (raw is List<int>)
     byte = raw;
   else if (raw is String) byte = hexDecode(raw);
-  return crypto.sha256.convert(byte).toString();
+  return crypto.sha256.convert(byte).bytes;
 }
 
-String doubleSha256Hex(String raw) {
-  return crypto.sha256.convert(crypto.sha256.convert(hexDecode(raw)).bytes).toString();
+List<int> doubleSha256Hex(String raw) {
+  return sha256(sha256(hexDecode(raw)));
 }
 
-String ripemd160Hex(raw) {
-  return hexEncode(
-      new pointycastle.Digest('RIPEMD-160').process(hexDecode(raw)));
+List<int> ripemd160Hex(raw) {
+  var byte;
+  if (raw is List<int>)
+    byte = raw;
+  else if (raw is String) byte = hexDecode(raw);
+  return new pointycastle.Digest('RIPEMD-160').process(byte);
 }

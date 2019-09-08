@@ -6,25 +6,41 @@ import 'package:nkn_sdk/utils.dart';
 
 class Account {
   Key _key;
-  Uint8List _publicKey;
-  Uint8List _privateKey;
-  Uint8List _seed;
+  String _contract;
   String _address;
-  String programHash;
 
   Account(seed) {
-    Key(seed);
+    this._key = Key(seed);
+    this._address = programHashStringToAddress(this._key.programHash);
+    this._contract = genAccountContractString(
+        this._key.signatureRedeem, this._key.programHash);
+  }
+
+  String get address {
+    return this._address;
   }
 
   String get seed {
-    return hexEncode(this._seed);
+    return this._key.seed;
   }
 
   String get privateKey {
-    return hexEncode(this._privateKey);
+    return this._key.privateKey;
   }
 
   String get publicKey {
-    return hexEncode(this._publicKey);
+    return this._key.publicKey;
+  }
+
+  String get programHash {
+    return this._key.programHash;
+  }
+
+  String get signatureRedeem {
+    return this._key.signatureRedeem;
+  }
+
+  String get contract {
+    return this._contract;
   }
 }
