@@ -4,7 +4,9 @@ import 'package:nkn_sdk/wallet.dart';
 
 void main() {
   test('create random wallet', () {
-    final wallet = Wallet.createRandom();
-    print(wallet);
+    final wallet = Wallet.createRandom('123456');
+    print(wallet.privateKey);
+    print(wallet.passwrodHash);
+
   });
 }

@@ -19,6 +19,10 @@ List<int> sha256Hex(raw) {
   return crypto.sha256.convert(byte).bytes;
 }
 
+List<int> doubleSha256(raw) {
+  return sha256(sha256(raw));
+}
+
 List<int> doubleSha256Hex(String raw) {
   return sha256(sha256(hexDecode(raw)));
 }

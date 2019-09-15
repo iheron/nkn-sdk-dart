@@ -9,7 +9,7 @@ class Account {
   String _contract;
   String _address;
 
-  Account(seed) {
+  Account([seed]) {
     this._key = Key(seed);
     this._address = programHashStringToAddress(this._key.programHash);
     this._contract = genAccountContractString(

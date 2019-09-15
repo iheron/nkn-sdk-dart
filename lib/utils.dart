@@ -2,7 +2,9 @@ import 'dart:core';
 import 'dart:typed_data';
 import 'package:bs58check/bs58check.dart';
 import 'package:convert/convert.dart';
-import 'tweetnacl/signature.dart';
+import 'package:pointycastle/block/aes_fast.dart';
+import 'package:pointycastle/block/modes/cbc.dart';
+import 'package:pointycastle/pointycastle.dart';
 import 'tweetnacl/tweetnaclfast.dart';
 import 'package:nkn_sdk/crypto/hash.dart';
 
@@ -11,9 +13,10 @@ const ADDRESS_GEN_PREFIX_LEN = ADDRESS_GEN_PREFIX.length / 2;
 const UINT160_LEN = 20;
 const CHECKSUM_LEN = 4;
 const ADDRESS_LEN = ADDRESS_GEN_PREFIX_LEN + UINT160_LEN + CHECKSUM_LEN;
+const SEED_LENGTH = 32;
 
-Uint8List randomByte() {
-  return TweetNaclFast.randombytes(Signature.seedLength);
+Uint8List randomByte([len = SEED_LENGTH]) {
+  return TweetNaclFast.randombytes(len);
 }
 
 String hexEncode(Uint8List raw) {
@@ -41,7 +44,8 @@ List<int> genAddressVerifyBytesFromProgramHash(String programHash) {
 String programHashStringToAddress(String programHash) {
   var addressVerifyBytes = genAddressVerifyBytesFromProgramHash(programHash);
   var addressBaseData = hexDecode(ADDRESS_GEN_PREFIX + programHash);
-  return base58.encode(Uint8List.fromList(addressBaseData + addressVerifyBytes));
+  return base58
+      .encode(Uint8List.fromList(addressBaseData + addressVerifyBytes));
 }
 
 String prefixByteCountToHexString(String hexStr) {
