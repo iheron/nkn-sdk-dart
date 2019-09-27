@@ -17,6 +17,7 @@ dependencies:
   convert: ^2.1.1
   protoc_plugin: ^18.0.1
   protobuf: ^0.14.1
+  http: ^0.12.0+2
 
 
 dev_dependencies:

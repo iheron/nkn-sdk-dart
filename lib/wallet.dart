@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'package:nkn_sdk/crypto/hash.dart';
 
 import 'crypto/account.dart';
-import 'crypto/encryption.dart';
+import 'crypto/encryption.dart' as encryption;
 import 'utils.dart';
 
 class Wallet {
@@ -18,24 +18,18 @@ class Wallet {
   Uint8List _iv;
   Uint8List _masterKey;
   Uint8List _seedEncrypted;
-  String _version;
+  int _version;
 
   Account _account;
 
-  Wallet(Account account) {
-    this._account = account;
-  }
-
   Wallet.createRandom([pass = '']) {
     Account account = Account();
-    this._account = account;
     genWallet(account, password: pass);
   }
 
-  Wallet.fromSeed(String seed) {
+  Wallet.fromSeed(String seed, [String pass = '']) {
     Account account = Account(seed);
-    this._account = account;
-    Wallet(account);
+    genWallet(account, password: pass);
   }
 
   String get address {
@@ -66,11 +60,11 @@ class Wallet {
     return this._account.contract;
   }
 
-  String get passwrodHash {
+  String get passwordHash {
     return hexEncode(this._passwordHash);
   }
 
-  String get version {
+  int get version {
     return this._version;
   }
 
@@ -83,25 +77,46 @@ class Wallet {
   }
 
   bool verifyPassword(pass) {
-    var passwordHash = Wallet.passwordHash(pass);
+    var passwordHash = Wallet.createPasswordHash(pass);
     return hexEncode(this._passwordHash) == hexEncode(sha256Hex(passwordHash));
   }
 
-  static Uint8List passwordHash(pass) {
+  static Uint8List createPasswordHash(pass) {
     return doubleSha256(pass);
   }
 
   genWallet(Account account,
       {String password = '', String prevMasterKey, String prevIV}) {
-    Wallet(account);
+    this._account = account;
 
-    var masterKey =
-        prevMasterKey != null ? hexDecode(prevMasterKey) : genAESPassword();
-    this._passwordHash = Wallet.passwordHash(password);
-    this._iv = prevIV != null ? hexDecode(prevIV) : genAESIV();
-    this._masterKey =
-        encrypt(masterKey, this._passwordHash, this._iv);
-    this._seedEncrypted = encrypt(hexDecode(seed), masterKey, this._iv);
-    this._version = Wallet.WALLET_VERSION.toString();
+    var masterKey = prevMasterKey != null
+        ? hexDecode(prevMasterKey)
+        : encryption.genAESPassword();
+
+    var pwdHash = createPasswordHash(password);
+    this._passwordHash = sha256Hex(pwdHash);
+    this._iv = prevIV != null ? hexDecode(prevIV) : encryption.genAESIV();
+    this._masterKey = encryption.encrypt(masterKey, pwdHash, this._iv);
+    this._seedEncrypted =
+        encryption.encrypt(hexDecode(seed), masterKey, this._iv);
+    this._version = Wallet.WALLET_VERSION;
+  }
+
+  encrypt([String pass]) {
+    if (pass == null) {
+      return jsonEncode({
+        'Version': this._version,
+        'PasswordHash': this.passwordHash,
+        'MasterKey': this.masterKey,
+        'IV': hexEncode(this._iv),
+        'SeedEncrypted': this.seedEncrypted,
+        'Address': this.address,
+        'ProgramHash': this.programHash,
+        'ContractData': this.contractData,
+      });
+    } else {
+      var wallet = Wallet.fromSeed(this.seed, pass);
+      return wallet.encrypt();
+    }
   }
 }
