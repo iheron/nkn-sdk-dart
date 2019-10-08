@@ -1,7 +1,4 @@
-import 'dart:typed_data';
-
 import 'package:nkn_sdk/crypto/key.dart';
-import 'package:nkn_sdk/tweetnacl/signature.dart';
 import 'package:nkn_sdk/utils.dart';
 
 class Account {
@@ -14,6 +11,10 @@ class Account {
     this._address = programHashStringToAddress(this._key.programHash);
     this._contract = genAccountContractString(
         this._key.signatureRedeem, this._key.programHash);
+  }
+
+  Key get key {
+    return this._key;
   }
 
   String get address {

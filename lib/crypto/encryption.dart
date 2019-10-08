@@ -36,7 +36,8 @@ Uint8List encrypt(plaintext, password, iv, {bool isSimplePassword = false}) {
   return _processBlocks(plaintext, cipher);
 }
 
-Uint8List decrypt(ciphertext, password, iv, {bool isSimplePassword = false}) {
+Uint8List decrypt(Uint8List ciphertext, Uint8List password, Uint8List iv,
+    {bool isSimplePassword = false}) {
   password = isSimplePassword ? hexEncode(doubleSha256(password)) : password;
 
   var params = ParametersWithIV(KeyParameter(password), iv);

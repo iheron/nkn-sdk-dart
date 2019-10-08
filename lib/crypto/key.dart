@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:nkn_sdk/tweetnacl/keypair.dart';
@@ -12,6 +11,7 @@ class Key {
   Uint8List _seed;
   String signatureRedeem;
   String programHash;
+  Signature _signature;
 
   Key(seed) {
     Uint8List seedByte;
@@ -31,6 +31,7 @@ class Key {
     this.signatureRedeem =
         publicKeyToSignatureRedeem(hexEncode(_key.publicKey));
     this.programHash = hexStringToProgramHash(this.signatureRedeem);
+    this._signature = Signature(this._key.publicKey, this._key.secretKey);
   }
 
   String get seed {
@@ -43,5 +44,9 @@ class Key {
 
   String get publicKey {
     return hexEncode(this._publicKey);
+  }
+
+  Uint8List sign(message) {
+    return _signature.detached(message);
   }
 }
