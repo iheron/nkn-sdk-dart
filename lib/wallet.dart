@@ -12,10 +12,10 @@ import 'package:nkn_sdk/transaction/transaction.dart';
 
 import 'crypto/account.dart';
 import 'crypto/encryption.dart' as encryption;
-import 'network/api.dart';
+import 'network/rpcApi.dart';
 import 'utils.dart';
 
-Api api = Api();
+RpcApi api = RpcApi();
 
 class Wallet {
   static final int WALLET_VERSION = 1;

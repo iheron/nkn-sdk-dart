@@ -26,3 +26,18 @@ class ClientMessageType extends $pb.ProtobufEnum {
   const ClientMessageType._($core.int v, $core.String n) : super(v, n);
 }
 
+class CompressionType extends $pb.ProtobufEnum {
+  static const CompressionType COMPRESSION_NONE = CompressionType._(0, 'COMPRESSION_NONE');
+  static const CompressionType COMPRESSION_ZLIB = CompressionType._(1, 'COMPRESSION_ZLIB');
+
+  static const $core.List<CompressionType> values = <CompressionType> [
+    COMPRESSION_NONE,
+    COMPRESSION_ZLIB,
+  ];
+
+  static final $core.Map<$core.int, CompressionType> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static CompressionType valueOf($core.int value) => _byValue[value];
+
+  const CompressionType._($core.int v, $core.String n) : super(v, n);
+}
+

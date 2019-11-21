@@ -1,22 +1,22 @@
 import 'dart:convert';
-import 'package:nkn_sdk/configure/configure.dart';
+import 'package:nkn_sdk/configure/rpc.dart';
 import 'package:http/http.dart' as http;
 import 'package:nkn_sdk/errors/walletError.dart';
 
-class Api {
-  Map<String, Object> _configure;
+class RpcApi {
   Map<String, Object> _params = {'jsonrpc': '2.0', 'id': 'nkn-sdk-dart'};
+  String _rpcAddr;
 
-  Api([newConfig]) {
-    if (newConfig == null) {
-      this._configure = configure;
+  RpcApi({rpcAddr}) {
+    if (rpcAddr == null) {
+      this._rpcAddr = rpcConfigure['RPC_ADDR'];
     } else {
-      this._configure = newConfig;
+      this._rpcAddr = rpcAddr;
     }
   }
 
   request(method, params, [callId]) async {
-    String url = this._configure['RPC_ADDR'];
+    String url = this._rpcAddr;
     if (!url.isNotEmpty) {
       throw WalletError(
           WalletErrorCode.NO_RPC_SERVER, WalletErrorMsg.NO_RPC_SERVER);

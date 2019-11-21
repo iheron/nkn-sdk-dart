@@ -36,17 +36,26 @@ class UnsignedMessage extends $pb.GeneratedMessage {
   static UnsignedMessage create() => UnsignedMessage._();
   UnsignedMessage createEmptyInstance() => create();
   static $pb.PbList<UnsignedMessage> createRepeated() => $pb.PbList<UnsignedMessage>();
-  static UnsignedMessage getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static UnsignedMessage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UnsignedMessage>(create);
   static UnsignedMessage _defaultInstance;
 
+  @$pb.TagNumber(1)
   MessageType get messageType => $_getN(0);
+  @$pb.TagNumber(1)
   set messageType(MessageType v) { setField(1, v); }
+  @$pb.TagNumber(1)
   $core.bool hasMessageType() => $_has(0);
+  @$pb.TagNumber(1)
   void clearMessageType() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.List<$core.int> get message => $_getN(1);
+  @$pb.TagNumber(2)
   set message($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasMessage() => $_has(1);
+  @$pb.TagNumber(2)
   void clearMessage() => clearField(2);
 }
 
@@ -68,17 +77,26 @@ class SignedMessage extends $pb.GeneratedMessage {
   static SignedMessage create() => SignedMessage._();
   SignedMessage createEmptyInstance() => create();
   static $pb.PbList<SignedMessage> createRepeated() => $pb.PbList<SignedMessage>();
-  static SignedMessage getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static SignedMessage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SignedMessage>(create);
   static SignedMessage _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$core.int> get message => $_getN(0);
+  @$pb.TagNumber(1)
   set message($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasMessage() => $_has(0);
+  @$pb.TagNumber(1)
   void clearMessage() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.List<$core.int> get signature => $_getN(1);
+  @$pb.TagNumber(2)
   set signature($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasSignature() => $_has(1);
+  @$pb.TagNumber(2)
   void clearSignature() => clearField(2);
 }
 
@@ -100,17 +118,26 @@ class Vote extends $pb.GeneratedMessage {
   static Vote create() => Vote._();
   Vote createEmptyInstance() => create();
   static $pb.PbList<Vote> createRepeated() => $pb.PbList<Vote>();
-  static Vote getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static Vote getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Vote>(create);
   static Vote _defaultInstance;
 
-  $core.int get height => $_get(0, 0);
+  @$pb.TagNumber(1)
+  $core.int get height => $_getIZ(0);
+  @$pb.TagNumber(1)
   set height($core.int v) { $_setUnsignedInt32(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasHeight() => $_has(0);
+  @$pb.TagNumber(1)
   void clearHeight() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.List<$core.int> get blockHash => $_getN(1);
+  @$pb.TagNumber(2)
   set blockHash($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasBlockHash() => $_has(1);
+  @$pb.TagNumber(2)
   void clearBlockHash() => clearField(2);
 }
 
@@ -132,17 +159,26 @@ class IHaveBlockProposal extends $pb.GeneratedMessage {
   static IHaveBlockProposal create() => IHaveBlockProposal._();
   IHaveBlockProposal createEmptyInstance() => create();
   static $pb.PbList<IHaveBlockProposal> createRepeated() => $pb.PbList<IHaveBlockProposal>();
-  static IHaveBlockProposal getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static IHaveBlockProposal getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<IHaveBlockProposal>(create);
   static IHaveBlockProposal _defaultInstance;
 
-  $core.int get height => $_get(0, 0);
+  @$pb.TagNumber(1)
+  $core.int get height => $_getIZ(0);
+  @$pb.TagNumber(1)
   set height($core.int v) { $_setUnsignedInt32(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasHeight() => $_has(0);
+  @$pb.TagNumber(1)
   void clearHeight() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.List<$core.int> get blockHash => $_getN(1);
+  @$pb.TagNumber(2)
   set blockHash($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasBlockHash() => $_has(1);
+  @$pb.TagNumber(2)
   void clearBlockHash() => clearField(2);
 }
 
@@ -166,33 +202,50 @@ class RequestBlockProposal extends $pb.GeneratedMessage {
   static RequestBlockProposal create() => RequestBlockProposal._();
   RequestBlockProposal createEmptyInstance() => create();
   static $pb.PbList<RequestBlockProposal> createRepeated() => $pb.PbList<RequestBlockProposal>();
-  static RequestBlockProposal getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static RequestBlockProposal getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RequestBlockProposal>(create);
   static RequestBlockProposal _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$core.int> get blockHash => $_getN(0);
+  @$pb.TagNumber(1)
   set blockHash($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasBlockHash() => $_has(0);
+  @$pb.TagNumber(1)
   void clearBlockHash() => clearField(1);
 
+  @$pb.TagNumber(2)
   RequestTransactionType get type => $_getN(1);
+  @$pb.TagNumber(2)
   set type(RequestTransactionType v) { setField(2, v); }
+  @$pb.TagNumber(2)
   $core.bool hasType() => $_has(1);
+  @$pb.TagNumber(2)
   void clearType() => clearField(2);
 
+  @$pb.TagNumber(3)
   $core.List<$core.int> get shortHashSalt => $_getN(2);
+  @$pb.TagNumber(3)
   set shortHashSalt($core.List<$core.int> v) { $_setBytes(2, v); }
+  @$pb.TagNumber(3)
   $core.bool hasShortHashSalt() => $_has(2);
+  @$pb.TagNumber(3)
   void clearShortHashSalt() => clearField(3);
 
-  $core.int get shortHashSize => $_get(3, 0);
+  @$pb.TagNumber(4)
+  $core.int get shortHashSize => $_getIZ(3);
+  @$pb.TagNumber(4)
   set shortHashSize($core.int v) { $_setUnsignedInt32(3, v); }
+  @$pb.TagNumber(4)
   $core.bool hasShortHashSize() => $_has(3);
+  @$pb.TagNumber(4)
   void clearShortHashSize() => clearField(4);
 }
 
 class RequestBlockProposalReply extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('RequestBlockProposalReply', package: const $pb.PackageName('pb'), createEmptyInstance: create)
-    ..a<$1.Block>(1, 'block', $pb.PbFieldType.OM, defaultOrMaker: $1.Block.getDefault, subBuilder: $1.Block.create)
+    ..aOM<$1.Block>(1, 'block', subBuilder: $1.Block.create)
     ..p<$core.List<$core.int>>(2, 'transactionsHash', $pb.PbFieldType.PY)
     ..hasRequiredFields = false
   ;
@@ -208,14 +261,22 @@ class RequestBlockProposalReply extends $pb.GeneratedMessage {
   static RequestBlockProposalReply create() => RequestBlockProposalReply._();
   RequestBlockProposalReply createEmptyInstance() => create();
   static $pb.PbList<RequestBlockProposalReply> createRepeated() => $pb.PbList<RequestBlockProposalReply>();
-  static RequestBlockProposalReply getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static RequestBlockProposalReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RequestBlockProposalReply>(create);
   static RequestBlockProposalReply _defaultInstance;
 
+  @$pb.TagNumber(1)
   $1.Block get block => $_getN(0);
+  @$pb.TagNumber(1)
   set block($1.Block v) { setField(1, v); }
+  @$pb.TagNumber(1)
   $core.bool hasBlock() => $_has(0);
+  @$pb.TagNumber(1)
   void clearBlock() => clearField(1);
+  @$pb.TagNumber(1)
+  $1.Block ensureBlock() => $_ensure(0);
 
+  @$pb.TagNumber(2)
   $core.List<$core.List<$core.int>> get transactionsHash => $_getList(1);
 }
 
@@ -240,29 +301,47 @@ class RequestProposalTransactions extends $pb.GeneratedMessage {
   static RequestProposalTransactions create() => RequestProposalTransactions._();
   RequestProposalTransactions createEmptyInstance() => create();
   static $pb.PbList<RequestProposalTransactions> createRepeated() => $pb.PbList<RequestProposalTransactions>();
-  static RequestProposalTransactions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static RequestProposalTransactions getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RequestProposalTransactions>(create);
   static RequestProposalTransactions _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$core.int> get blockHash => $_getN(0);
+  @$pb.TagNumber(1)
   set blockHash($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasBlockHash() => $_has(0);
+  @$pb.TagNumber(1)
   void clearBlockHash() => clearField(1);
 
+  @$pb.TagNumber(2)
   RequestTransactionType get type => $_getN(1);
+  @$pb.TagNumber(2)
   set type(RequestTransactionType v) { setField(2, v); }
+  @$pb.TagNumber(2)
   $core.bool hasType() => $_has(1);
+  @$pb.TagNumber(2)
   void clearType() => clearField(2);
 
+  @$pb.TagNumber(3)
   $core.List<$core.int> get shortHashSalt => $_getN(2);
+  @$pb.TagNumber(3)
   set shortHashSalt($core.List<$core.int> v) { $_setBytes(2, v); }
+  @$pb.TagNumber(3)
   $core.bool hasShortHashSalt() => $_has(2);
+  @$pb.TagNumber(3)
   void clearShortHashSalt() => clearField(3);
 
-  $core.int get shortHashSize => $_get(3, 0);
+  @$pb.TagNumber(4)
+  $core.int get shortHashSize => $_getIZ(3);
+  @$pb.TagNumber(4)
   set shortHashSize($core.int v) { $_setUnsignedInt32(3, v); }
+  @$pb.TagNumber(4)
   $core.bool hasShortHashSize() => $_has(3);
+  @$pb.TagNumber(4)
   void clearShortHashSize() => clearField(4);
 
+  @$pb.TagNumber(5)
   $core.List<$core.List<$core.int>> get transactionsHash => $_getList(4);
 }
 
@@ -283,9 +362,11 @@ class RequestProposalTransactionsReply extends $pb.GeneratedMessage {
   static RequestProposalTransactionsReply create() => RequestProposalTransactionsReply._();
   RequestProposalTransactionsReply createEmptyInstance() => create();
   static $pb.PbList<RequestProposalTransactionsReply> createRepeated() => $pb.PbList<RequestProposalTransactionsReply>();
-  static RequestProposalTransactionsReply getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static RequestProposalTransactionsReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RequestProposalTransactionsReply>(create);
   static RequestProposalTransactionsReply _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$0.Transaction> get transactions => $_getList(0);
 }
 
@@ -305,7 +386,8 @@ class GetConsensusState extends $pb.GeneratedMessage {
   static GetConsensusState create() => GetConsensusState._();
   GetConsensusState createEmptyInstance() => create();
   static $pb.PbList<GetConsensusState> createRepeated() => $pb.PbList<GetConsensusState>();
-  static GetConsensusState getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GetConsensusState getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetConsensusState>(create);
   static GetConsensusState _defaultInstance;
 }
 
@@ -330,32 +412,53 @@ class GetConsensusStateReply extends $pb.GeneratedMessage {
   static GetConsensusStateReply create() => GetConsensusStateReply._();
   GetConsensusStateReply createEmptyInstance() => create();
   static $pb.PbList<GetConsensusStateReply> createRepeated() => $pb.PbList<GetConsensusStateReply>();
-  static GetConsensusStateReply getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GetConsensusStateReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetConsensusStateReply>(create);
   static GetConsensusStateReply _defaultInstance;
 
-  $core.int get ledgerHeight => $_get(0, 0);
+  @$pb.TagNumber(1)
+  $core.int get ledgerHeight => $_getIZ(0);
+  @$pb.TagNumber(1)
   set ledgerHeight($core.int v) { $_setUnsignedInt32(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasLedgerHeight() => $_has(0);
+  @$pb.TagNumber(1)
   void clearLedgerHeight() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.List<$core.int> get ledgerBlockHash => $_getN(1);
+  @$pb.TagNumber(2)
   set ledgerBlockHash($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasLedgerBlockHash() => $_has(1);
+  @$pb.TagNumber(2)
   void clearLedgerBlockHash() => clearField(2);
 
-  $core.int get consensusHeight => $_get(2, 0);
+  @$pb.TagNumber(3)
+  $core.int get consensusHeight => $_getIZ(2);
+  @$pb.TagNumber(3)
   set consensusHeight($core.int v) { $_setUnsignedInt32(2, v); }
+  @$pb.TagNumber(3)
   $core.bool hasConsensusHeight() => $_has(2);
+  @$pb.TagNumber(3)
   void clearConsensusHeight() => clearField(3);
 
+  @$pb.TagNumber(4)
   $3.SyncState get syncState => $_getN(3);
+  @$pb.TagNumber(4)
   set syncState($3.SyncState v) { setField(4, v); }
+  @$pb.TagNumber(4)
   $core.bool hasSyncState() => $_has(3);
+  @$pb.TagNumber(4)
   void clearSyncState() => clearField(4);
 
-  $core.int get minVerifiableHeight => $_get(4, 0);
+  @$pb.TagNumber(5)
+  $core.int get minVerifiableHeight => $_getIZ(4);
+  @$pb.TagNumber(5)
   set minVerifiableHeight($core.int v) { $_setUnsignedInt32(4, v); }
+  @$pb.TagNumber(5)
   $core.bool hasMinVerifiableHeight() => $_has(4);
+  @$pb.TagNumber(5)
   void clearMinVerifiableHeight() => clearField(5);
 }
 
@@ -377,17 +480,26 @@ class GetBlockHeaders extends $pb.GeneratedMessage {
   static GetBlockHeaders create() => GetBlockHeaders._();
   GetBlockHeaders createEmptyInstance() => create();
   static $pb.PbList<GetBlockHeaders> createRepeated() => $pb.PbList<GetBlockHeaders>();
-  static GetBlockHeaders getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GetBlockHeaders getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBlockHeaders>(create);
   static GetBlockHeaders _defaultInstance;
 
-  $core.int get startHeight => $_get(0, 0);
+  @$pb.TagNumber(1)
+  $core.int get startHeight => $_getIZ(0);
+  @$pb.TagNumber(1)
   set startHeight($core.int v) { $_setUnsignedInt32(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasStartHeight() => $_has(0);
+  @$pb.TagNumber(1)
   void clearStartHeight() => clearField(1);
 
-  $core.int get endHeight => $_get(1, 0);
+  @$pb.TagNumber(2)
+  $core.int get endHeight => $_getIZ(1);
+  @$pb.TagNumber(2)
   set endHeight($core.int v) { $_setUnsignedInt32(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasEndHeight() => $_has(1);
+  @$pb.TagNumber(2)
   void clearEndHeight() => clearField(2);
 }
 
@@ -408,9 +520,11 @@ class GetBlockHeadersReply extends $pb.GeneratedMessage {
   static GetBlockHeadersReply create() => GetBlockHeadersReply._();
   GetBlockHeadersReply createEmptyInstance() => create();
   static $pb.PbList<GetBlockHeadersReply> createRepeated() => $pb.PbList<GetBlockHeadersReply>();
-  static GetBlockHeadersReply getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GetBlockHeadersReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBlockHeadersReply>(create);
   static GetBlockHeadersReply _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$1.Header> get blockHeaders => $_getList(0);
 }
 
@@ -432,17 +546,26 @@ class GetBlocks extends $pb.GeneratedMessage {
   static GetBlocks create() => GetBlocks._();
   GetBlocks createEmptyInstance() => create();
   static $pb.PbList<GetBlocks> createRepeated() => $pb.PbList<GetBlocks>();
-  static GetBlocks getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GetBlocks getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBlocks>(create);
   static GetBlocks _defaultInstance;
 
-  $core.int get startHeight => $_get(0, 0);
+  @$pb.TagNumber(1)
+  $core.int get startHeight => $_getIZ(0);
+  @$pb.TagNumber(1)
   set startHeight($core.int v) { $_setUnsignedInt32(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasStartHeight() => $_has(0);
+  @$pb.TagNumber(1)
   void clearStartHeight() => clearField(1);
 
-  $core.int get endHeight => $_get(1, 0);
+  @$pb.TagNumber(2)
+  $core.int get endHeight => $_getIZ(1);
+  @$pb.TagNumber(2)
   set endHeight($core.int v) { $_setUnsignedInt32(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasEndHeight() => $_has(1);
+  @$pb.TagNumber(2)
   void clearEndHeight() => clearField(2);
 }
 
@@ -463,9 +586,11 @@ class GetBlocksReply extends $pb.GeneratedMessage {
   static GetBlocksReply create() => GetBlocksReply._();
   GetBlocksReply createEmptyInstance() => create();
   static $pb.PbList<GetBlocksReply> createRepeated() => $pb.PbList<GetBlocksReply>();
-  static GetBlocksReply getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static GetBlocksReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBlocksReply>(create);
   static GetBlocksReply _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$1.Block> get blocks => $_getList(0);
 }
 
@@ -493,47 +618,80 @@ class Relay extends $pb.GeneratedMessage {
   static Relay create() => Relay._();
   Relay createEmptyInstance() => create();
   static $pb.PbList<Relay> createRepeated() => $pb.PbList<Relay>();
-  static Relay getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static Relay getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Relay>(create);
   static Relay _defaultInstance;
 
-  $core.String get srcIdentifier => $_getS(0, '');
+  @$pb.TagNumber(1)
+  $core.String get srcIdentifier => $_getSZ(0);
+  @$pb.TagNumber(1)
   set srcIdentifier($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasSrcIdentifier() => $_has(0);
+  @$pb.TagNumber(1)
   void clearSrcIdentifier() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.List<$core.int> get destId => $_getN(1);
+  @$pb.TagNumber(2)
   set destId($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasDestId() => $_has(1);
+  @$pb.TagNumber(2)
   void clearDestId() => clearField(2);
 
+  @$pb.TagNumber(3)
   $core.List<$core.int> get payload => $_getN(2);
+  @$pb.TagNumber(3)
   set payload($core.List<$core.int> v) { $_setBytes(2, v); }
+  @$pb.TagNumber(3)
   $core.bool hasPayload() => $_has(2);
+  @$pb.TagNumber(3)
   void clearPayload() => clearField(3);
 
-  $core.int get maxHoldingSeconds => $_get(3, 0);
+  @$pb.TagNumber(5)
+  $core.int get maxHoldingSeconds => $_getIZ(3);
+  @$pb.TagNumber(5)
   set maxHoldingSeconds($core.int v) { $_setUnsignedInt32(3, v); }
+  @$pb.TagNumber(5)
   $core.bool hasMaxHoldingSeconds() => $_has(3);
+  @$pb.TagNumber(5)
   void clearMaxHoldingSeconds() => clearField(5);
 
+  @$pb.TagNumber(6)
   $core.List<$core.int> get srcPubkey => $_getN(4);
+  @$pb.TagNumber(6)
   set srcPubkey($core.List<$core.int> v) { $_setBytes(4, v); }
+  @$pb.TagNumber(6)
   $core.bool hasSrcPubkey() => $_has(4);
+  @$pb.TagNumber(6)
   void clearSrcPubkey() => clearField(6);
 
+  @$pb.TagNumber(7)
   $core.List<$core.int> get blockHash => $_getN(5);
+  @$pb.TagNumber(7)
   set blockHash($core.List<$core.int> v) { $_setBytes(5, v); }
+  @$pb.TagNumber(7)
   $core.bool hasBlockHash() => $_has(5);
+  @$pb.TagNumber(7)
   void clearBlockHash() => clearField(7);
 
+  @$pb.TagNumber(8)
   $core.List<$core.int> get lastSignature => $_getN(6);
+  @$pb.TagNumber(8)
   set lastSignature($core.List<$core.int> v) { $_setBytes(6, v); }
+  @$pb.TagNumber(8)
   $core.bool hasLastSignature() => $_has(6);
+  @$pb.TagNumber(8)
   void clearLastSignature() => clearField(8);
 
-  $core.int get sigChainLen => $_get(7, 0);
+  @$pb.TagNumber(9)
+  $core.int get sigChainLen => $_getIZ(7);
+  @$pb.TagNumber(9)
   set sigChainLen($core.int v) { $_setUnsignedInt32(7, v); }
+  @$pb.TagNumber(9)
   $core.bool hasSigChainLen() => $_has(7);
+  @$pb.TagNumber(9)
   void clearSigChainLen() => clearField(9);
 }
 
@@ -554,9 +712,11 @@ class Transactions extends $pb.GeneratedMessage {
   static Transactions create() => Transactions._();
   Transactions createEmptyInstance() => create();
   static $pb.PbList<Transactions> createRepeated() => $pb.PbList<Transactions>();
-  static Transactions getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static Transactions getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Transactions>(create);
   static Transactions _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$0.Transaction> get transactions => $_getList(0);
 }
 
@@ -578,14 +738,20 @@ class BacktrackSignatureChain extends $pb.GeneratedMessage {
   static BacktrackSignatureChain create() => BacktrackSignatureChain._();
   BacktrackSignatureChain createEmptyInstance() => create();
   static $pb.PbList<BacktrackSignatureChain> createRepeated() => $pb.PbList<BacktrackSignatureChain>();
-  static BacktrackSignatureChain getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static BacktrackSignatureChain getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BacktrackSignatureChain>(create);
   static BacktrackSignatureChain _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$2.SigChainElem> get sigChainElems => $_getList(0);
 
+  @$pb.TagNumber(2)
   $core.List<$core.int> get prevSignature => $_getN(1);
+  @$pb.TagNumber(2)
   set prevSignature($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasPrevSignature() => $_has(1);
+  @$pb.TagNumber(2)
   void clearPrevSignature() => clearField(2);
 }
 
@@ -607,17 +773,26 @@ class IHaveSignatureChainTransaction extends $pb.GeneratedMessage {
   static IHaveSignatureChainTransaction create() => IHaveSignatureChainTransaction._();
   IHaveSignatureChainTransaction createEmptyInstance() => create();
   static $pb.PbList<IHaveSignatureChainTransaction> createRepeated() => $pb.PbList<IHaveSignatureChainTransaction>();
-  static IHaveSignatureChainTransaction getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static IHaveSignatureChainTransaction getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<IHaveSignatureChainTransaction>(create);
   static IHaveSignatureChainTransaction _defaultInstance;
 
-  $core.int get height => $_get(0, 0);
+  @$pb.TagNumber(1)
+  $core.int get height => $_getIZ(0);
+  @$pb.TagNumber(1)
   set height($core.int v) { $_setUnsignedInt32(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasHeight() => $_has(0);
+  @$pb.TagNumber(1)
   void clearHeight() => clearField(1);
 
+  @$pb.TagNumber(2)
   $core.List<$core.int> get signatureHash => $_getN(1);
+  @$pb.TagNumber(2)
   set signatureHash($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
   $core.bool hasSignatureHash() => $_has(1);
+  @$pb.TagNumber(2)
   void clearSignatureHash() => clearField(2);
 }
 
@@ -638,18 +813,23 @@ class RequestSignatureChainTransaction extends $pb.GeneratedMessage {
   static RequestSignatureChainTransaction create() => RequestSignatureChainTransaction._();
   RequestSignatureChainTransaction createEmptyInstance() => create();
   static $pb.PbList<RequestSignatureChainTransaction> createRepeated() => $pb.PbList<RequestSignatureChainTransaction>();
-  static RequestSignatureChainTransaction getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static RequestSignatureChainTransaction getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RequestSignatureChainTransaction>(create);
   static RequestSignatureChainTransaction _defaultInstance;
 
+  @$pb.TagNumber(1)
   $core.List<$core.int> get signatureHash => $_getN(0);
+  @$pb.TagNumber(1)
   set signatureHash($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
   $core.bool hasSignatureHash() => $_has(0);
+  @$pb.TagNumber(1)
   void clearSignatureHash() => clearField(1);
 }
 
 class RequestSignatureChainTransactionReply extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('RequestSignatureChainTransactionReply', package: const $pb.PackageName('pb'), createEmptyInstance: create)
-    ..a<$0.Transaction>(1, 'transaction', $pb.PbFieldType.OM, defaultOrMaker: $0.Transaction.getDefault, subBuilder: $0.Transaction.create)
+    ..aOM<$0.Transaction>(1, 'transaction', subBuilder: $0.Transaction.create)
     ..hasRequiredFields = false
   ;
 
@@ -664,12 +844,19 @@ class RequestSignatureChainTransactionReply extends $pb.GeneratedMessage {
   static RequestSignatureChainTransactionReply create() => RequestSignatureChainTransactionReply._();
   RequestSignatureChainTransactionReply createEmptyInstance() => create();
   static $pb.PbList<RequestSignatureChainTransactionReply> createRepeated() => $pb.PbList<RequestSignatureChainTransactionReply>();
-  static RequestSignatureChainTransactionReply getDefault() => _defaultInstance ??= create()..freeze();
+  @$core.pragma('dart2js:noInline')
+  static RequestSignatureChainTransactionReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RequestSignatureChainTransactionReply>(create);
   static RequestSignatureChainTransactionReply _defaultInstance;
 
+  @$pb.TagNumber(1)
   $0.Transaction get transaction => $_getN(0);
+  @$pb.TagNumber(1)
   set transaction($0.Transaction v) { setField(1, v); }
+  @$pb.TagNumber(1)
   $core.bool hasTransaction() => $_has(0);
+  @$pb.TagNumber(1)
   void clearTransaction() => clearField(1);
+  @$pb.TagNumber(1)
+  $0.Transaction ensureTransaction() => $_ensure(0);
 }
 
