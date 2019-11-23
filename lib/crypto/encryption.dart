@@ -6,7 +6,7 @@ import 'package:pointycastle/block/aes_fast.dart';
 import 'package:pointycastle/block/modes/cbc.dart';
 
 import 'hash.dart';
-import '../utils.dart';
+import '../utils/utils.dart';
 
 Uint8List genAESIV() {
   return TweetNaclFast.randombytes(16);
@@ -26,7 +26,7 @@ Uint8List _processBlocks(Uint8List input, CBCBlockCipher engine) {
   return output;
 }
 
-Uint8List encrypt(plaintext, password, iv, {bool isSimplePassword = false}) {
+Uint8List aesEncrypt(plaintext, password, iv, {bool isSimplePassword = false}) {
   password = isSimplePassword ? hexEncode(doubleSha256(password)) : password;
 
   var params = ParametersWithIV(KeyParameter(password), iv);
@@ -36,8 +36,7 @@ Uint8List encrypt(plaintext, password, iv, {bool isSimplePassword = false}) {
   return _processBlocks(plaintext, cipher);
 }
 
-Uint8List decrypt(Uint8List ciphertext, Uint8List password, Uint8List iv,
-    {bool isSimplePassword = false}) {
+Uint8List aesDecrypt(Uint8List ciphertext, Uint8List password, Uint8List iv, {bool isSimplePassword = false}) {
   password = isSimplePassword ? hexEncode(doubleSha256(password)) : password;
 
   var params = ParametersWithIV(KeyParameter(password), iv);
@@ -45,4 +44,12 @@ Uint8List decrypt(Uint8List ciphertext, Uint8List password, Uint8List iv,
   cipher.init(false, params);
 
   return _processBlocks(ciphertext, cipher);
+}
+
+Uint8List decrypt(Uint8List encrypted,Uint8List nonce, Uint8List key){
+  return SecretBox(key).open_nonce(encrypted, nonce);
+}
+
+Uint8List encrypt(Uint8List message,Uint8List nonce, Uint8List key){
+  return SecretBox(key).box_nonce(message, nonce);
 }

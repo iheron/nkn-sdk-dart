@@ -6,7 +6,7 @@ import 'package:nkn_sdk/tweetnacl/signature.dart';
 import 'package:nkn_sdk/tweetnacl/tools.dart';
 import 'package:nkn_sdk/tweetnacl/keypair.dart';
 import 'package:nkn_sdk/tweetnacl/tweetnaclfast.dart';
-import 'package:nkn_sdk/utils.dart' as utils;
+import 'package:nkn_sdk/utils/utils.dart' as utils;
 
 void main() {
   test('create random key', () {

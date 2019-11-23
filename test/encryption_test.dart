@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nkn_sdk/crypto/encryption.dart';
-import 'package:nkn_sdk/utils.dart';
+import 'package:nkn_sdk/utils/utils.dart';
 
 void main() {
   test('encrypt', () {
-    var encode = encrypt(
+    var encode = aesEncrypt(
         hexDecode(
             'd6d4e00674b6ee0d19e41c42bf92f5e919b97f3e02f33e18acb699a101355174'),
         hexDecode(
@@ -15,7 +15,7 @@ void main() {
   });
 
   test('decrypt', () {
-    var decode = decrypt(
+    var decode = aesDecrypt(
         hexDecode(
             '527cf7cda271b39cb86eaf56aa3689aeee28ee8c3b5289d576a340419ad6fdf0'),
         hexDecode(

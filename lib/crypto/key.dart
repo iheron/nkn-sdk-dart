@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:nkn_sdk/crypto/hash.dart';
 import 'package:nkn_sdk/tweetnacl/keypair.dart';
 import 'package:nkn_sdk/tweetnacl/signature.dart';
-import 'package:nkn_sdk/utils.dart';
+import 'package:nkn_sdk/utils/utils.dart';
 
 class Key {
   KeyPair _key;
@@ -28,8 +29,7 @@ class Key {
     this._publicKey = _key.publicKey;
     this._privateKey = _key.secretKey;
     this._seed = seedByte;
-    this.signatureRedeem =
-        publicKeyToSignatureRedeem(hexEncode(_key.publicKey));
+    this.signatureRedeem = publicKeyToSignatureRedeem(hexEncode(_key.publicKey));
     this.programHash = hexStringToProgramHash(this.signatureRedeem);
     this._signature = Signature(this._key.publicKey, this._key.secretKey);
   }
@@ -38,7 +38,11 @@ class Key {
     return hexEncode(this._seed);
   }
 
-  String get privateKey {
+  Uint8List get privateKey {
+    return this._privateKey;
+  }
+
+  String get privateKeyHash {
     return hexEncode(this._privateKey);
   }
 
@@ -46,7 +50,7 @@ class Key {
     return hexEncode(this._publicKey);
   }
 
-  Uint8List sign(message) {
+  Uint8List sign(Uint8List message) {
     return _signature.detached(message);
   }
 }

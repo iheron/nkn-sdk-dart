@@ -1,5 +1,5 @@
 import 'package:nkn_sdk/crypto/key.dart';
-import 'package:nkn_sdk/utils.dart';
+import 'package:nkn_sdk/utils/utils.dart';
 
 class Account {
   Key _key;
@@ -26,7 +26,7 @@ class Account {
   }
 
   String get privateKey {
-    return this._key.privateKey;
+    return this._key.privateKeyHash;
   }
 
   String get publicKey {

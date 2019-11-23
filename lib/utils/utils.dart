@@ -2,7 +2,9 @@ import 'dart:core';
 import 'dart:typed_data';
 import 'package:bs58check/bs58check.dart';
 import 'package:convert/convert.dart';
-import 'tweetnacl/tweetnaclfast.dart';
+import 'package:nkn_sdk/crypto/encryption.dart';
+import 'package:nkn_sdk/utils/ed2curve.dart';
+import '../tweetnacl/tweetnaclfast.dart';
 import 'package:nkn_sdk/crypto/hash.dart';
 
 const ADDRESS_GEN_PREFIX = '02b825';
@@ -18,11 +20,11 @@ Uint8List randomByte([len = SEED_LENGTH]) {
   return TweetNaclFast.randombytes(len);
 }
 
-String hexEncode(Uint8List raw) {
+String hexEncode(List<int> raw) {
   return hex.encode(raw).toLowerCase();
 }
 
-Uint8List hexDecode(String s) {
+List<int> hexDecode(String s) {
   return hex.decode(s);
 }
 
@@ -43,8 +45,7 @@ List<int> genAddressVerifyBytesFromProgramHash(String programHash) {
 String programHashStringToAddress(String programHash) {
   var addressVerifyBytes = genAddressVerifyBytesFromProgramHash(programHash);
   var addressBaseData = hexDecode(ADDRESS_GEN_PREFIX + programHash);
-  return base58
-      .encode(Uint8List.fromList(addressBaseData + addressVerifyBytes));
+  return base58.encode(Uint8List.fromList(addressBaseData + addressVerifyBytes));
 }
 
 String prefixByteCountToHexString(String hexStr) {
@@ -76,8 +77,7 @@ String genAccountContractString(signatureRedeem, programHash) {
 
 String addressStringToProgramHash(String address) {
   var addressBytes = base58.decode(address);
-  var programHashBytes = addressBytes.sublist(
-      ADDRESS_GEN_PREFIX_LEN, addressBytes.length - CHECKSUM_LEN);
+  var programHashBytes = addressBytes.sublist(ADDRESS_GEN_PREFIX_LEN, addressBytes.length - CHECKSUM_LEN);
   return hexEncode(programHashBytes);
 }
 
@@ -107,6 +107,20 @@ bool verifyAddress(String address) {
   var addressVerifyCode = getAddressStringVerifyCode(address);
   var programHashVerifyCode = genAddressVerifyCodeFromProgramHash(programHash);
   return addressVerifyCode == programHashVerifyCode;
+}
+
+Uint8List getPublicKeyByClientAddr(String addr) {
+  int n = addr.lastIndexOf('.');
+  if (n < 0) {
+    return hexDecode(addr);
+  } else {
+    print(addr.substring(n + 1));
+    return hexDecode(addr.substring(n + 1));
+  }
+}
+
+Uint8List computeSharedKey(Uint8List myCurveSecretKey, Uint8List otherCurvePubkey){
+  return new Box(otherCurvePubkey, myCurveSecretKey).before();
 }
 
 String encodeUint8(int value) {
@@ -149,7 +163,7 @@ String encodeUint(value) {
   }
 }
 
-String encodeBytes(Uint8List value) {
+String encodeBytes(List<int> value) {
   return encodeUint(value.length) + hexEncode(value);
 }
 
@@ -157,7 +171,11 @@ String encodeString(value) {
   return encodeUint(value.length) + value;
 }
 
-signatureToParameter(Uint8List signed) {
+String encodeBool(value) {
+  return encodeUint8(value ? 1 : 0);
+}
+
+signatureToParameter(List signed) {
   var list = signed.toList();
   list.insert(0, 0x40);
   return Uint8List.fromList(list);

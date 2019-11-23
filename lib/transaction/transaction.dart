@@ -6,7 +6,7 @@ import 'package:nkn_sdk/crypto/account.dart';
 import 'package:nkn_sdk/crypto/hash.dart';
 import 'package:nkn_sdk/pb/transaction.pb.dart';
 import 'package:nkn_sdk/transaction/payload.dart';
-import 'package:nkn_sdk/utils.dart';
+import 'package:nkn_sdk/utils/utils.dart';
 
 serializeUnsignedTx(UnsignedTx unsignedTx) {
   var hex = '';
@@ -41,7 +41,7 @@ newTransaction(Account account, pld, nonce, {Int64 fee, attrs=''}) {
   unsignedTx.nonce = Int64(nonce);
   unsignedTx.fee = fee ?? Int64(0);
 
-  if (!(attrs?.isEmpty)) unsignedTx.attributes = hexDecode(attrs);
+  if (!(attrs.isEmpty)) unsignedTx.attributes = hexDecode(attrs);
 
   Transaction txn = Transaction();
   txn.unsignedTx = unsignedTx;

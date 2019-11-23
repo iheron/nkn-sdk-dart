@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nkn_sdk/crypto/account.dart';
 import 'package:bs58check/bs58check.dart' as base58;
 import 'package:nkn_sdk/crypto/key.dart';
-import 'package:nkn_sdk/utils.dart';
+import 'package:nkn_sdk/utils/utils.dart';
 
 void main() {
   test('create account', () {

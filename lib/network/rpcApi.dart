@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:nkn_sdk/configure/rpc.dart';
 import 'package:http/http.dart' as http;
+import 'package:nkn_sdk/errors/rpcError.dart';
 import 'package:nkn_sdk/errors/walletError.dart';
 
 class RpcApi {
@@ -27,7 +28,7 @@ class RpcApi {
     var res = await http.post(url, body: jsonEncode(data));
 
     if (res.statusCode != 200) {
-      throw 'response error';
+      throw RpcError();
     }
 
     Map json = jsonDecode(res.body);
@@ -56,5 +57,9 @@ class RpcApi {
 
   sendRawTransaction(tx) async {
     return await this.request('sendrawtransaction', {'tx': tx});
+  }
+
+  getWsAddr(address) async {
+    return await this.request('getwsaddr', {'address': address});
   }
 }

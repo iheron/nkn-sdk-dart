@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:crypto/crypto.dart' as crypto;
-import 'package:nkn_sdk/utils.dart';
+import 'package:nkn_sdk/utils/utils.dart';
 
 List<int> sha256(raw) {
   var byte;

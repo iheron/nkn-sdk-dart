@@ -1,7 +1,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:nkn_sdk/configure/configure.dart';
 import 'package:nkn_sdk/pb/transaction.pb.dart';
-import 'package:nkn_sdk/utils.dart';
+import 'package:nkn_sdk/utils/utils.dart';
 
 Payload newTransfer(String sender, String recipient, double amount) {
   Int64 coin = Int64((amount * configure['NKN_ACC_MUL']).toInt());

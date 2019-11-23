@@ -13,7 +13,7 @@ import 'package:nkn_sdk/transaction/transaction.dart';
 import 'crypto/account.dart';
 import 'crypto/encryption.dart' as encryption;
 import 'network/rpcApi.dart';
-import 'utils.dart';
+import 'utils/utils.dart';
 
 RpcApi api = RpcApi();
 
@@ -67,8 +67,8 @@ class Wallet {
           WalletErrorCode.WRONG_PASSWORD, WalletErrorMsg.WRONG_PASSWORD);
     }
     var decryptMasterKey =
-        encryption.decrypt(hexDecode(masterKey), pwdHash, hexDecode(iv));
-    var seed = encryption.decrypt(
+        encryption.aesDecrypt(hexDecode(masterKey), pwdHash, hexDecode(iv));
+    var seed = encryption.aesDecrypt(
         hexDecode(seedEncrypted), decryptMasterKey, hexDecode(iv));
 
     genWallet(Account(seed),
@@ -139,9 +139,9 @@ class Wallet {
     var pwdHash = createPasswordHash(password);
     this._passwordHash = sha256Hex(pwdHash);
     this._iv = prevIV != null ? hexDecode(prevIV) : encryption.genAESIV();
-    this._masterKey = encryption.encrypt(masterKey, pwdHash, this._iv);
+    this._masterKey = encryption.aesEncrypt(masterKey, pwdHash, this._iv);
     this._seedEncrypted =
-        encryption.encrypt(hexDecode(seed), masterKey, this._iv);
+        encryption.aesEncrypt(hexDecode(seed), masterKey, this._iv);
     this._version = Wallet.WALLET_VERSION;
   }
 
