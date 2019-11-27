@@ -2,8 +2,6 @@ import 'dart:core';
 import 'dart:typed_data';
 import 'package:bs58check/bs58check.dart';
 import 'package:convert/convert.dart';
-import 'package:nkn_sdk/crypto/encryption.dart';
-import 'package:nkn_sdk/utils/ed2curve.dart';
 import '../tweetnacl/tweetnaclfast.dart';
 import 'package:nkn_sdk/crypto/hash.dart';
 
@@ -18,6 +16,11 @@ const MAX_UINT = 281474976710656;
 
 Uint8List randomByte([len = SEED_LENGTH]) {
   return TweetNaclFast.randombytes(len);
+}
+int randomInt32() {
+  Uint8List b = randomByte(4);
+  b[0] &= 127;
+  return (b[0]<<24) + (b[1]<<16) + (b[2]<<8) + b[3];
 }
 
 String hexEncode(List<int> raw) {
@@ -114,7 +117,6 @@ Uint8List getPublicKeyByClientAddr(String addr) {
   if (n < 0) {
     return hexDecode(addr);
   } else {
-    print(addr.substring(n + 1));
     return hexDecode(addr.substring(n + 1));
   }
 }

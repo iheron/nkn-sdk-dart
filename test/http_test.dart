@@ -7,8 +7,7 @@ import 'package:nkn_sdk/network/rpcApi.dart';
 void main() {
   test('query balance', () async {
     var api = RpcApi();
-    var res =
-        await api.getBalanceByAddr('NKNVCZYpUk94xe3p3miNGSoQnkidQUfPMQxx');
+    var res = await api.getBalanceByAddr('NKNVCZYpUk94xe3p3miNGSoQnkidQUfPMQxx');
 
     expect(double.parse(res['amount']) is double, true);
   });
@@ -20,6 +19,4 @@ void main() {
     expect(res['nonce'] >= 0, true);
     expect(res['nonceInTxPool'] >= 0, true);
   });
-
-
 }

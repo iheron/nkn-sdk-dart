@@ -12,15 +12,13 @@ import 'package:nkn_sdk/utils/utils.dart';
 
 void main() {
   test('genAddressVerifyBytesFromProgramHash', () {
-    var res = genAddressVerifyBytesFromProgramHash(
-        '1ee4bce30a23935c685cdd740ae9f9b04250dc8d');
+    var res = genAddressVerifyBytesFromProgramHash('1ee4bce30a23935c685cdd740ae9f9b04250dc8d');
 
     expect(res, [100, 22, 247, 125]);
   });
 
   test('programHashStringToAddress', () {
-    var address =
-        programHashStringToAddress('f5c1db61c1ecb85daa29609a8ca0f58696bf3916');
+    var address = programHashStringToAddress('f5c1db61c1ecb85daa29609a8ca0f58696bf3916');
     expect(address, 'NKNZtYo7DtVGSQufgVcYcD44u4Fs2yKf91dF');
   });
 
@@ -31,7 +29,6 @@ void main() {
   });
 
   test('encode uint', () {
-
     var uint8_1 = encodeUint8(0);
     expect(uint8_1, '00');
     var uint8_2 = encodeUint8(44);
@@ -56,7 +53,6 @@ void main() {
     expect(uint32_3, '37000000');
     var uint32_4 = encodeUint32(1);
     expect(uint32_4, '01000000');
-
 
     var uint64_1 = encodeUint64(0);
     expect(uint64_1, '0000000000000000');

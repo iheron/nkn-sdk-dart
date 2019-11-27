@@ -30,7 +30,7 @@ class Account {
   }
 
   String get publicKey {
-    return this._key.publicKey;
+    return this._key.publicKeyHash;
   }
 
   String get programHash {

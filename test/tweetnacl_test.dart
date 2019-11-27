@@ -14,18 +14,14 @@ void main() {
 
     KeyPair key = Signature.keyPair_fromSeed(seedByte);
 
-    expect(hexEncodeToString(seedByte) + hexEncodeToString(key.publicKey),
-        hexEncodeToString(key.secretKey));
+    expect(hexEncodeToString(seedByte) + hexEncodeToString(key.publicKey), hexEncodeToString(key.secretKey));
   });
 
   test('restore key by seed', () {
-    var seed =
-        'a2df9fafa747b4da6afa58cdee8e170f0a71815584c3ed3bfa52040c89d0bd61';
+    var seed = 'a2df9fafa747b4da6afa58cdee8e170f0a71815584c3ed3bfa52040c89d0bd61';
     KeyPair key = Signature.keyPair_fromSeed(hexDecode(seed));
-    expect(hexEncodeToString(key.publicKey),
-        'd839c6e5cd3d7af2535fbff3a12d430e6d77bbdc076ccdd457c3d4c4f608082d');
-    expect(hexEncodeToString(key.secretKey),
-        'a2df9fafa747b4da6afa58cdee8e170f0a71815584c3ed3bfa52040c89d0bd61d839c6e5cd3d7af2535fbff3a12d430e6d77bbdc076ccdd457c3d4c4f608082d');
+    expect(hexEncodeToString(key.publicKey), 'd839c6e5cd3d7af2535fbff3a12d430e6d77bbdc076ccdd457c3d4c4f608082d');
+    expect(hexEncodeToString(key.secretKey), 'a2df9fafa747b4da6afa58cdee8e170f0a71815584c3ed3bfa52040c89d0bd61d839c6e5cd3d7af2535fbff3a12d430e6d77bbdc076ccdd457c3d4c4f608082d');
   });
 
   test('crypto open', () {
@@ -43,6 +39,4 @@ void main() {
     var res = SecretBox(k).box_nonce(msg, n);
     expect(utils.hexEncode(res), '592c69baa96563ab82bdbe9fd5f539162a109b635ea4fd5a25bfc807760065417abb738d94e120f701ab05b8ccb982775989');
   });
-
-
 }

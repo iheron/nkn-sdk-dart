@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:nkn_sdk/crypto/hash.dart';
 import 'package:nkn_sdk/tweetnacl/keypair.dart';
 import 'package:nkn_sdk/tweetnacl/signature.dart';
 import 'package:nkn_sdk/utils/utils.dart';
@@ -46,8 +45,12 @@ class Key {
     return hexEncode(this._privateKey);
   }
 
-  String get publicKey {
+  String get publicKeyHash {
     return hexEncode(this._publicKey);
+  }
+
+  Uint8List get publicKey {
+    return this._publicKey;
   }
 
   Uint8List sign(Uint8List message) {

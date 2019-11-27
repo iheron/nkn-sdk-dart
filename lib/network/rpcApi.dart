@@ -19,8 +19,7 @@ class RpcApi {
   request(method, params, [callId]) async {
     String url = this._rpcAddr;
     if (!url.isNotEmpty) {
-      throw WalletError(
-          WalletErrorCode.NO_RPC_SERVER, WalletErrorMsg.NO_RPC_SERVER);
+      throw WalletError(WalletErrorCode.NO_RPC_SERVER, WalletErrorMsg.NO_RPC_SERVER);
     }
     Map<String, Object> data = Map<String, Object>.from(this._params);
     data.addAll({'method': method, 'params': params});
@@ -61,5 +60,17 @@ class RpcApi {
 
   getWsAddr(address) async {
     return await this.request('getwsaddr', {'address': address});
+  }
+
+  getSubscribers(topic, {offset: 0, limit: 1000, meta: false, txPool: false}) async {
+    return await this.request('getsubscribers', {'topic': topic, 'offset': offset, 'limit': limit, 'meta': meta, 'txPool': txPool});
+  }
+
+  getSubscribersCount(topic) async {
+    return await this.request('getsubscriberscount', {'topic': topic});
+  }
+
+  getSubscription(topic, subscriber) async {
+    return await this.request('getsubscription', {'topic': topic, 'subscriber': subscriber});
   }
 }

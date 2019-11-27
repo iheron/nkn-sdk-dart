@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
@@ -11,6 +12,7 @@ import 'package:nkn_sdk/network/rpcApi.dart';
 import 'package:nkn_sdk/pb/clientmessage.pb.dart';
 import 'package:nkn_sdk/pb/payloads.pb.dart';
 import 'package:nkn_sdk/protocol/protocol.dart';
+import 'package:nkn_sdk/tweetnacl/tweetnaclfast.dart';
 import 'package:nkn_sdk/utils/ed2curve.dart';
 import 'package:nkn_sdk/utils/utils.dart';
 
@@ -29,8 +31,9 @@ class WsApi {
   String _addr;
   String _sigChainBlockHash;
   bool _shouldReconnect;
-  Function _onConnect;
-  Function _onMessage;
+  Map<String, Object> _node;
+  var _onConnect;
+  var _onMessage;
   Function _onClose;
   Function _onError;
   Function _onBlock;
@@ -52,7 +55,7 @@ class WsApi {
     _key = new Key(seed);
     _curveSecretKey = convertSecretKey(_key.privateKey);
     _identifier = identifier ?? '';
-    _addr = (identifier != null ? identifier + '.' : '') + _key.publicKey;
+    _addr = (identifier != null ? identifier + '.' : '') + _key.publicKeyHash;
     _shouldReconnect = false;
   }
 
@@ -60,11 +63,11 @@ class WsApi {
     return _addr;
   }
 
-  set onConnect(Function f) {
+  set onConnect(f) {
     _onConnect = f;
   }
 
-  set onMessage(Function f) {
+  set onMessage(f) {
     _onMessage = f;
   }
 
@@ -80,7 +83,7 @@ class WsApi {
     _onBlock = f;
   }
 
-  handleInboundMsg(raw) {
+  handleInboundMsg(raw) async {
     InboundMessage msg = InboundMessage.fromBuffer(raw);
     if (msg.prevSignature.length > 0) {
       var receipt = newReceipt(msg.prevSignature, _key);
@@ -109,40 +112,70 @@ class WsApi {
         data = null;
         break;
     }
-
+    print(payload);
     switch (payload.type) {
       case PayloadType.TEXT:
       case PayloadType.BINARY:
-        if (_onMessage != null) _onMessage(data);
-        break;
+        var response;
+        if (_onMessage != null) {
+          response = await _onMessage(msg.src, data, payload.type, pldMsg.encrypted, payload.pid);
+        }
+        if (payload.replyToPid != null && payload.replyToPid.length > 0) {
+          if (response == false) {
+            return true;
+          } else if (response != null) {
+            this.send(
+              msg.src,
+              response,
+              encrypt: pldMsg.encrypted,
+              msgHoldingSeconds: 0,
+              replyToPid: payload.pid,
+              noReply: true,
+            );
+          } else {
+            this.sendACK(msg.src, payload.pid, pldMsg.encrypted);
+          }
+        }
+
+        return true;
     }
+    return false;
   }
 
   handleConnect(addr) async {
     _ws = await WebSocket.connect(addr);
+    _ws.pingInterval = const Duration(seconds: 10);
+    _ws.timeout(const Duration(seconds: 30));
     _shouldReconnect = true;
     _reconnectInterval = _reconnectIntervalMin;
   }
 
-  handleBinaryMessage(List<int> raw) {
+  handleBinaryMessage(List<int> raw) async {
     ClientMessage clientMessage = ClientMessage.fromBuffer(raw);
     switch (clientMessage.messageType) {
       case ClientMessageType.INBOUND_MESSAGE:
-        return handleInboundMsg(clientMessage.message);
+        return await handleInboundMsg(clientMessage.message);
       default:
         return false;
     }
   }
 
-  handleMessage(data) {
+  handleMessage(data) async {
     if (data is List<int>) {
       print('received binary message');
-      this.handleBinaryMessage(data);
+      try {
+        var handled = await this.handleBinaryMessage(data);
+        if (!handled) {
+          print('Unhandled msg.');
+        }
+      } catch (e) {
+        print(e);
+      }
       return;
     }
 
     var msg = jsonDecode(data);
-
+    print('revice $msg');
     if (msg['Error'] != null && msg['Error'] != StatusCode.SUCCESS) {
       if (msg['Error'] == StatusCode.WRONG_NODE) {
         this.createWebSocketConnection(msg['Result']);
@@ -161,7 +194,7 @@ class WsApi {
         _sigChainBlockHash = msg['Result'];
         break;
       case 'sendRawBlock':
-        if (_onBlock != null) _onBlock;
+        if (_onBlock != null) _onBlock();
         break;
       default:
         print('Unknown msg type: ' + msg['Action']);
@@ -171,61 +204,133 @@ class WsApi {
   createWebSocketConnection(node) async {
     if (node['addr'] == null) {
       print('No address in node info' + node);
-      if (_shouldReconnect) {
-        this.reconnect();
-      }
+      this.reconnect();
       return;
     }
     await this.handleConnect('ws://' + node['addr']);
+    _node = node;
+    print('set client $addr');
     _ws.add(jsonEncode({'Action': 'setClient', 'Addr': _addr}));
-    _ws.listen(
-      handleMessage,
-      onDone: _onClose,
-      onError: _onError
-    );
+    _ws.listen(handleMessage, onDone: () {
+      this.reconnect();
+    }, onError: (e) {
+      this.reconnect();
+      if (_onError is Function) _onError(e);
+    });
   }
 
   connect() async {
-    Random random = new Random();
+    Random random = Random();
     var rpcAddr = _seedRpcServer[random.nextInt(_seedRpcServer.length)];
 
-    RpcApi rpc = new RpcApi(rpcAddr: rpcAddr);
+    RpcApi rpc = RpcApi(rpcAddr: rpcAddr);
     try {
       var nodeInfo = await rpc.getWsAddr(_addr);
-
+      print('getWsAddr $nodeInfo');
       await this.createWebSocketConnection(nodeInfo);
     } catch (e) {
       print('RPC call failed, $e');
-      if (_shouldReconnect) {
-        this.reconnect();
-      }
+      this.reconnect();
     }
   }
 
   reconnect() async {
-    print('Reconnecting in ' + (_reconnectInterval / 1000).toString() + 's...');
+    if (_shouldReconnect) {
+      print('Reconnecting in ' + (_reconnectInterval / 1000).toString() + 's...');
+      var timer = Timer(Duration(milliseconds: _reconnectInterval), this.connect);
+      _reconnectInterval *= 2;
+      if (_reconnectInterval > _reconnectIntervalMax) {
+        _reconnectInterval = _reconnectIntervalMax;
+      }
+    } else {
+      if (_onClose is Function) _onClose();
+    }
   }
 
+  close() async {
+    _shouldReconnect = false;
+    _ws.close();
+    if (_onClose is Function) _onClose();
+  }
 
+  messageFromPayload(Payload payload, isEncrypt, dest) {
+    if (isEncrypt) {
+      if (dest is List) {
+        throw "Encryption with multicast is not supported yet";
+      }
+      var nonce = randomByte(Box.nonceLength);
+      var sharedKey = computeSharedKey(_curveSecretKey, convertPublicKey(getPublicKeyByClientAddr(dest)));
+      var encrypted = encrypt(payload.writeToBuffer(), nonce, sharedKey);
+
+      return newMessage(encrypted, true, nonce);
+    } else {
+      return newMessage(payload.writeToBuffer(), false);
+    }
+  }
+
+  sendACK(dest, pid, encrypt) async {
+    if (dest is List) {
+      if (dest.length == 0) {
+        return;
+      }
+      if (dest.length == 1) {
+        this.sendACK(dest[0], pid, encrypt);
+      }
+      if (dest.length > 1 && encrypt) {
+        print("Encryption with multicast is not supported yet, fall back to unicast for ACK");
+        for (var i = 0; i < dest.length; i++) {
+          this.sendACK(dest[i], pid, encrypt);
+        }
+        return;
+      }
+    }
+
+    Payload payload = newAckPayload(pid, null);
+
+    Message pldMsg = messageFromPayload(payload, encrypt, dest);
+    OutboundMessage obMsg = newOutboundMessage(dest, pldMsg.writeToBuffer(), 0, _addr, _key, _node['pubkey'], sigChainBlockHash: _sigChainBlockHash);
+    ClientMessage msg = newClientMessage(ClientMessageType.OUTBOUND_MESSAGE, obMsg.writeToBuffer());
+    _ws.add(msg.writeToBuffer());
+  }
+
+  sendMsg(dest, data, encrypt, maxHoldingSeconds, replyToPid, msgPid) async {
+    if (dest is List) {
+      if (dest.length == 0) {
+        return null;
+      }
+      if (dest.length == 1) {
+        return sendMsg(dest[0], data, encrypt, maxHoldingSeconds, replyToPid, msgPid);
+      }
+      if (dest.length > 1 && encrypt) {
+        print("Encryption with multicast is not supported yet, fall back to unicast and will not return msg pid");
+        for (var i = 0; i < dest.length; i++) {
+          sendMsg(dest[i], data, encrypt, maxHoldingSeconds, replyToPid, msgPid);
+        }
+        return null;
+      }
+    }
+
+    Payload payload;
+    if (data is String) {
+      payload = newTextPayload(data, replyToPid, msgPid);
+    } else {
+      payload = newBinaryPayload(data, replyToPid, msgPid);
+    }
+
+    Message pldMsg = messageFromPayload(payload, encrypt, dest);
+
+    OutboundMessage obMsg = newOutboundMessage(dest, pldMsg.writeToBuffer(), maxHoldingSeconds, _addr, _key, _node['pubkey'], sigChainBlockHash: _sigChainBlockHash);
+    ClientMessage client = newClientMessage(ClientMessageType.OUTBOUND_MESSAGE, obMsg.writeToBuffer());
+    _ws.add(client.writeToBuffer());
+
+    return payload.pid;
+  }
+
+  send(dest, data, {pid, replyToPid, noReply, encrypt, msgHoldingSeconds}) async {
+    await sendMsg(dest, data, encrypt ?? _encrypt, msgHoldingSeconds ?? _msgHoldingSeconds, replyToPid, pid);
+    if (pid == null || noReply) {
+      return null;
+    }
+  }
 }
 
-void main() async {
-  print('-----------------');
-  WsApi api = new WsApi('a516443812f913b1d3f90bdb89a8fc393ff158fd2e7a3382d3f7a3991cb73fed', 'dartsdk');
-  print(api._addr);
-  api.onConnect = () {
-    print('--------------connect-------------');
-  };
-  api.onMessage = (data) {
-    print('--------------on data------------- $data');
-    var json = jsonDecode(data);
-    print(json['content']);
-  };
-  api.onError = (e) {
-    print('----------err----- $e');
-  };
-  api.onClose = () {
-    print('--------close--------');
-  };
-  await api.connect();
-}
