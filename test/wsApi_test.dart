@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
-
 
 import 'package:nkn_sdk/network/wsApi.dart';
-import 'package:nkn_sdk/wallet.dart';
 
 void main() async {
   WsApi api = new WsApi('a516443812f913b1d3f90bdb89a8fc393ff158fd2e7a3382d3f7a3991cb73fed', 'dartsdk');
@@ -23,8 +20,6 @@ void main() async {
     print('--------close--------');
   };
   await api.connect();
-  api.send('heron.25ac590eaca614a0ba4c4387d8514a0b54e948d120c6ff49564e7830c9dec929', '{"contentType":"text","isPrivate":true,"content":"hello"}');
-  print('------------send-------------');
 
   WsApi api2 = new WsApi('2bc5501d131696429264eb7286c44a29dd44dd66834d9471bd8b0eb875a1edb0', 'test');
   print(api2.addr);

@@ -34,9 +34,9 @@ class WsApi {
   Map<String, Object> _node;
   var _onConnect;
   var _onMessage;
-  Function _onClose;
-  Function _onError;
-  Function _onBlock;
+  var _onClose;
+  var _onError;
+  var _onBlock;
   WsApi(String seed, String identifier, {seedRpcServer, bool encrypt, int msgHoldingSeconds, int reconnectIntervalMin, int reconnectIntervalMax, int responseTimeout}) {
     _seedRpcServer = new List<String>();
     if (seedRpcServer is String) {
@@ -55,7 +55,7 @@ class WsApi {
     _key = new Key(seed);
     _curveSecretKey = convertSecretKey(_key.privateKey);
     _identifier = identifier ?? '';
-    _addr = (identifier != null ? identifier + '.' : '') + _key.publicKeyHash;
+    _addr = (identifier?.isNotEmpty ?? false ? identifier + '.' : '') + _key.publicKeyHash;
     _shouldReconnect = false;
   }
 
@@ -63,23 +63,27 @@ class WsApi {
     return _addr;
   }
 
+  String get identifier {
+    return _identifier;
+  }
+
   set onConnect(f) {
     _onConnect = f;
   }
 
-  set onMessage(f) {
+  set onMessage(Future<dynamic> f(String src, data, type, encrypted, pid)) {
     _onMessage = f;
   }
 
-  set onClose(Function f) {
+  set onClose(f) {
     _onClose = f;
   }
 
-  set onError(Function f) {
+  set onError(f(e)) {
     _onError = f;
   }
 
-  set onBlock(Function f) {
+  set onBlock(f) {
     _onBlock = f;
   }
 
@@ -112,7 +116,7 @@ class WsApi {
         data = null;
         break;
     }
-    print(payload);
+
     switch (payload.type) {
       case PayloadType.TEXT:
       case PayloadType.BINARY:
@@ -120,21 +124,20 @@ class WsApi {
         if (_onMessage != null) {
           response = await _onMessage(msg.src, data, payload.type, pldMsg.encrypted, payload.pid);
         }
-        if (payload.replyToPid != null && payload.replyToPid.length > 0) {
-          if (response == false) {
-            return true;
-          } else if (response != null) {
-            this.send(
-              msg.src,
-              response,
-              encrypt: pldMsg.encrypted,
-              msgHoldingSeconds: 0,
-              replyToPid: payload.pid,
-              noReply: true,
-            );
-          } else {
-            this.sendACK(msg.src, payload.pid, pldMsg.encrypted);
-          }
+
+        if (response == false) {
+          return true;
+        } else if (response != null && response != true) {
+          this.send(
+            msg.src,
+            response,
+            encrypt: pldMsg.encrypted,
+            msgHoldingSeconds: 0,
+            replyToPid: payload.pid,
+            noReply: true,
+          );
+        } else {
+          this.sendACK(msg.src, payload.pid, pldMsg.encrypted);
         }
 
         return true;
@@ -175,7 +178,7 @@ class WsApi {
     }
 
     var msg = jsonDecode(data);
-    print('revice $msg');
+
     if (msg['Error'] != null && msg['Error'] != StatusCode.SUCCESS) {
       if (msg['Error'] == StatusCode.WRONG_NODE) {
         this.createWebSocketConnection(msg['Result']);
@@ -326,11 +329,10 @@ class WsApi {
     return payload.pid;
   }
 
-  send(dest, data, {pid, replyToPid, noReply, encrypt, msgHoldingSeconds}) async {
+  send(dest, data, {pid, replyToPid, noReply: false, encrypt, msgHoldingSeconds}) async {
     await sendMsg(dest, data, encrypt ?? _encrypt, msgHoldingSeconds ?? _msgHoldingSeconds, replyToPid, pid);
     if (pid == null || noReply) {
       return null;
     }
   }
 }
-

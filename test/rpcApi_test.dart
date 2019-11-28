@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nkn_sdk/network/rpcApi.dart';
-import 'package:nkn_sdk/network/wsApi.dart';
 
 void main() {
   test('getSubscribers', () async {
