@@ -14,11 +14,11 @@ const SEED_LENGTH = 32;
 const MAX_UINT_BITS = 48;
 const MAX_UINT = 281474976710656;
 
-Uint8List randomByte([len = SEED_LENGTH]) {
+Uint8List randomBytes([len = SEED_LENGTH]) {
   return TweetNaclFast.randombytes(len);
 }
 int randomInt32() {
-  Uint8List b = randomByte(4);
+  Uint8List b = randomBytes(4);
   b[0] &= 127;
   return (b[0]<<24) + (b[1]<<16) + (b[2]<<8) + b[3];
 }

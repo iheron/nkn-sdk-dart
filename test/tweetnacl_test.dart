@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -21,6 +22,14 @@ void main() {
     KeyPair key = Signature.keyPair_fromSeed(hexDecode(seed));
     expect(hexEncodeToString(key.publicKey), 'd839c6e5cd3d7af2535fbff3a12d430e6d77bbdc076ccdd457c3d4c4f608082d');
     expect(hexEncodeToString(key.secretKey), 'a2df9fafa747b4da6afa58cdee8e170f0a71815584c3ed3bfa52040c89d0bd61d839c6e5cd3d7af2535fbff3a12d430e6d77bbdc076ccdd457c3d4c4f608082d');
+  });
+
+  test('sign', () {
+    var seed = 'a2df9fafa747b4da6afa58cdee8e170f0a71815584c3ed3bfa52040c89d0bd61';
+    KeyPair key = Signature.keyPair_fromSeed(hexDecode(seed));
+    Signature signature = Signature(key.publicKey, key.secretKey);
+    var res = signature.detached(utf8.encode( 'Hello, world!'));
+    expect(utils.hexEncode(res), 'fc81c36aa9002bb973fb7db3b8d334ae52194edf5e051d4c5105d20fbbad7287cd5172aea0acac43d843bf3b692aa486d96e4dcfbed9b7dcfb6e7c385c070d0d');
   });
 
   test('crypto open', () {

@@ -23,7 +23,7 @@ newPayload(type, replyToPid, data, msgPid) {
   } else if (msgPid != null) {
     payload.pid = msgPid;
   } else {
-    payload.pid = randomByte(PID_SIZE);
+    payload.pid = randomBytes(PID_SIZE);
   }
 
   if(data != null) payload.data = data;

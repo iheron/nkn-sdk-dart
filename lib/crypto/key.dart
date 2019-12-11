@@ -22,7 +22,7 @@ class Key {
       seedByte = hexDecode(seed);
       this._key = Signature.keyPair_fromSeed(seedByte);
     } else {
-      seedByte = randomByte();
+      seedByte = randomBytes();
       this._key = Signature.keyPair_fromSeed(seedByte);
     }
     this._publicKey = _key.publicKey;

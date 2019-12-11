@@ -261,7 +261,7 @@ class WsApi {
       if (dest is List) {
         throw "Encryption with multicast is not supported yet";
       }
-      var nonce = randomByte(Box.nonceLength);
+      var nonce = randomBytes(Box.nonceLength);
       var sharedKey = computeSharedKey(_curveSecretKey, convertPublicKey(getPublicKeyByClientAddr(dest)));
       var encrypted = encrypt(payload.writeToBuffer(), nonce, sharedKey);
 

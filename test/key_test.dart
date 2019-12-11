@@ -7,7 +7,7 @@ import 'package:nkn_sdk/utils/utils.dart';
 
 void main() {
   test('create random key', () {
-    Uint8List seedByte = randomByte();
+    Uint8List seedByte = randomBytes();
     final key = Key(seedByte);
     expect(key.seed + key.publicKeyHash, key.privateKeyHash);
   });

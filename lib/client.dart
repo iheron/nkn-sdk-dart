@@ -95,7 +95,7 @@ class Client {
   }
 
   send(dest, data, {pid, replyToPid, noReply: false, encrypt, msgHoldingSeconds}) async {
-    if (pid == null) pid = randomByte(PID_SIZE);
+    if (pid == null) pid = randomBytes(PID_SIZE);
     Future.any(_clients.map((item) => item.send(dest, data, pid: pid, replyToPid: replyToPid, noReply: noReply, encrypt: encrypt, msgHoldingSeconds: msgHoldingSeconds)));
   }
 
